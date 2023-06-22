@@ -1,10 +1,13 @@
 {
-	"name": "psegarra-fetch",
+	"name": "@betino/fetch",
 	"private": false,
-	"version": "1.0.0",
 	"type": "module",
+	"version": "1.0.0",
 	"module": "dist/index.es.js",
 	"main": "dist/index.umd.js",
+	"repository": "https://github.com/pausegarra/psb-fetch.git",
+	"author": "Pau Segarra",
+	"license": "MIT",
 	"scripts": {
 		"build": "vite build"
 	},
@@ -13,6 +16,5 @@
 	},
 	"files": [
 		"dist"
-	],
-	"repository": "https://github.com/pausegarra/psb-fetch"
+	]
 }
