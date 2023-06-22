@@ -1,5 +1,5 @@
 {
-	"name": "psb-fetch",
+	"name": "psegarra-fetch",
 	"private": false,
 	"version": "1.0.0",
 	"type": "module",
@@ -13,5 +13,6 @@
 	},
 	"files": [
 		"dist"
-	]
+	],
+	"repository": "https://github.com/pausegarra/psb-fetch"
 }
