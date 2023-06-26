@@ -1,14 +1,15 @@
 import { httpErrorCodes } from '../utils/http-error-codes';
 
 export class FetchService {
-  constructor(baseURL) {
-    this.baseURL = baseURL;
+  baseOptions: Record<string, string>
+
+  constructor(private readonly baseURL: string) {
     this.baseOptions = {
       credentials: 'include'
     }
   }
 
-  async get (endpoint, params = {}, headers = {}) {
+  async get (endpoint: string, params: Record<string,string> = {}, headers = {}) {
     const url = new URL(`${this.baseURL}${endpoint}`);
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
     const response = await fetch(url, {
@@ -22,7 +23,7 @@ export class FetchService {
     return this.handleResponse(response);
   }
 
-  async post (endpoint, body = {}, headers = {}) {
+  async post (endpoint: string, body = {}, headers = {}) {
     const response = await fetch(`${this.baseURL}${endpoint}`, {
       ...this.baseOptions,
       method: 'POST',
@@ -35,7 +36,7 @@ export class FetchService {
     return this.handleResponse(response);
   }
 
-  async put (endpoint, body = {}, headers = {}) {
+  async put (endpoint: string, body = {}, headers = {}) {
     const response = await fetch(`${this.baseURL}${endpoint}`, {
       ...this.baseOptions,
       method: 'PUT',
@@ -48,7 +49,7 @@ export class FetchService {
     return this.handleResponse(response);
   }
 
-  async delete (endpoint, headers = {}) {
+  async delete (endpoint: string, headers = {}) {
     const response = await fetch(`${this.baseURL}${endpoint}`, {
       ...this.baseOptions,
       method: 'DELETE',
@@ -60,7 +61,7 @@ export class FetchService {
     return this.handleResponse(response);
   }
 
-  async handleResponse (response) {
+  async handleResponse (response: Response) {
     if (response.ok) {
       return response.json();
     } else {
@@ -71,7 +72,10 @@ export class FetchService {
 }
 
 class FetchException extends Error {
-  constructor(code, err) {
+  status: number;
+  error: Error;
+
+  constructor(code: number, err: Error) {
     super()
     this.status = code
     this.error = err

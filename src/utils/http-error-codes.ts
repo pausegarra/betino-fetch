@@ -1,4 +1,4 @@
-export const httpErrorCodes = {
+export const httpErrorCodes: Record<number, string> = {
   400: 'BadRequestError',
   401: 'UnauthorizedError',
   402: 'PaymentRequiredError',
@@ -40,7 +40,7 @@ export const httpErrorCodes = {
   511: 'NetworkAuthenticationRequiredError'
 }
 
-export const httpErrorNames = {
+export const httpErrorNames: Record<string, string> = {
   BadRequest: 'BadRequestError',
   Unauthorized: 'UnauthorizedError',
   PaymentRequired: 'PaymentRequiredError',
