@@ -1,6 +1,7 @@
 import { httpErrorCodes } from '../utils/http-error-codes';
+import {IFetchService} from '../interfaces/IFetchService'
 
-export class FetchService {
+export class FetchService implements IFetchService {
   baseOptions: Record<string, string>
 
   constructor(private readonly baseURL: string) {
