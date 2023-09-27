@@ -1,18 +1,15 @@
 import { httpErrorCodes } from '../utils/http-error-codes';
-import {IFetchService} from '../interfaces/IFetchService'
+import { IFetchService } from '../interfaces/IFetchService';
 
 export class FetchService implements IFetchService {
-  baseOptions: Record<string, string>
+  baseOptions: Record<string, string>;
 
   constructor(private readonly baseURL: string) {
-    this.baseOptions = {
-      credentials: 'include'
-    }
+    this.baseOptions = {};
   }
 
-  async get (endpoint: string, params: Record<string,string> = {}, headers = {}) {
-    const url = new URL(`${this.baseURL}${endpoint}`);
-    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+  async get(endpoint: string, params: Record<string, string> = {}, headers = {}) {
+    const url = this.constructUrl(this.baseURL, endpoint, params);
     const response = await fetch(url, {
       ...this.baseOptions,
       method: 'GET',
@@ -24,7 +21,24 @@ export class FetchService implements IFetchService {
     return this.handleResponse(response);
   }
 
-  async post (endpoint: string, body = {}, headers = {}) {
+  constructUrl(baseURL: string, endpoint: string, params: Record<string, string>) {
+    let url = `${baseURL}${endpoint}`;
+
+    const paramKeys = Object.keys(params);
+    if (paramKeys.length > 0) {
+      url += '?';
+      paramKeys.forEach((key, index) => {
+        url += `${key}=${params[key]}`;
+        if (index < paramKeys.length - 1) {
+          url += '&';
+        }
+      });
+    }
+
+    return url;
+  };
+
+  async post(endpoint: string, body = {}, headers = {}) {
     const response = await fetch(`${this.baseURL}${endpoint}`, {
       ...this.baseOptions,
       method: 'POST',
@@ -37,7 +51,7 @@ export class FetchService implements IFetchService {
     return this.handleResponse(response);
   }
 
-  async put (endpoint: string, body = {}, headers = {}) {
+  async put(endpoint: string, body = {}, headers = {}) {
     const response = await fetch(`${this.baseURL}${endpoint}`, {
       ...this.baseOptions,
       method: 'PUT',
@@ -50,7 +64,7 @@ export class FetchService implements IFetchService {
     return this.handleResponse(response);
   }
 
-  async delete (endpoint: string, headers = {}) {
+  async delete(endpoint: string, headers = {}) {
     const response = await fetch(`${this.baseURL}${endpoint}`, {
       ...this.baseOptions,
       method: 'DELETE',
@@ -62,7 +76,7 @@ export class FetchService implements IFetchService {
     return this.handleResponse(response);
   }
 
-  async handleResponse (response: Response) {
+  async handleResponse(response: Response) {
     if (response.ok) {
       return response.json();
     } else {
@@ -77,9 +91,9 @@ class FetchException extends Error {
   error: Error;
 
   constructor(code: number, err: Error) {
-    super()
-    this.status = code
-    this.error = err
-    this.name = httpErrorCodes[code]
+    super();
+    this.status = code;
+    this.error = err;
+    this.name = httpErrorCodes[code];
   }
 }
