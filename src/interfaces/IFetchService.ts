@@ -17,7 +17,7 @@ export interface IFetchService {
     headers?: Record<string, string>
   ): Promise<T>;
 
-  put<T = any>(
+  patch<T = any>(
     endpoint: string,
     body?: any,
     headers?: Record<string, string>
