@@ -67,7 +67,7 @@ export class FetchService implements IFetchService {
   async patch<T = any>(endpoint: string, body = {}, headers = {}): Promise<T> {
     const response = await fetch(`${this.baseURL}${endpoint}`, {
       ...this.baseOptions,
-      method: 'PUT',
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
         ...headers
