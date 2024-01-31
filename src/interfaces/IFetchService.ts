@@ -1,21 +1,27 @@
 export interface IFetchService {
-  get(
+  get<T = any>(
     endpoint: string,
     params?: Record<string, string>,
     headers?: Record<string, string>
-  ): Promise<any>;
+  ): Promise<T>;
 
-  post(
+  post<T = any>(
     endpoint: string,
     body?: any,
     headers?: Record<string, string>
-  ): Promise<any>;
+  ): Promise<T>;
 
-  put(
+  put<T = any>(
     endpoint: string,
     body?: any,
     headers?: Record<string, string>
-  ): Promise<any>;
+  ): Promise<T>;
 
-  delete(endpoint: string, headers?: Record<string, string>): Promise<any>;
+  put<T = any>(
+    endpoint: string,
+    body?: any,
+    headers?: Record<string, string>
+  ): Promise<T>;
+
+  delete<T = any>(endpoint: string, headers?: Record<string, string>): Promise<T>;
 }

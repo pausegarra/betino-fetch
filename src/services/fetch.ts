@@ -8,7 +8,7 @@ export class FetchService implements IFetchService {
     this.baseOptions = {};
   }
 
-  async get(endpoint: string, params: Record<string, string> = {}, headers = {}) {
+  async get<T = any>(endpoint: string, params: Record<string, string> = {}, headers = {}): Promise<T> {
     const url = this.constructUrl(this.baseURL, endpoint, params);
     const response = await fetch(url, {
       ...this.baseOptions,
@@ -38,7 +38,7 @@ export class FetchService implements IFetchService {
     return url;
   };
 
-  async post(endpoint: string, body = {}, headers = {}) {
+  async post<T = any>(endpoint: string, body = {}, headers = {}): Promise<T> {
     const response = await fetch(`${this.baseURL}${endpoint}`, {
       ...this.baseOptions,
       method: 'POST',
@@ -51,7 +51,7 @@ export class FetchService implements IFetchService {
     return this.handleResponse(response);
   }
 
-  async put(endpoint: string, body = {}, headers = {}) {
+  async put<T = any>(endpoint: string, body = {}, headers = {}): Promise<T> {
     const response = await fetch(`${this.baseURL}${endpoint}`, {
       ...this.baseOptions,
       method: 'PUT',
@@ -64,7 +64,20 @@ export class FetchService implements IFetchService {
     return this.handleResponse(response);
   }
 
-  async delete(endpoint: string, headers = {}) {
+  async patch<T = any>(endpoint: string, body = {}, headers = {}): Promise<T> {
+    const response = await fetch(`${this.baseURL}${endpoint}`, {
+      ...this.baseOptions,
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        ...headers
+      },
+      body: JSON.stringify(body)
+    });
+    return this.handleResponse(response);
+  }
+
+  async delete<T = any>(endpoint: string, headers = {}): Promise<T> {
     const response = await fetch(`${this.baseURL}${endpoint}`, {
       ...this.baseOptions,
       method: 'DELETE',
