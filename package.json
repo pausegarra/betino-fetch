@@ -2,7 +2,7 @@
 	"name": "@betino/fetch",
 	"private": false,
 	"type": "commonjs",
-	"version": "1.2.2",
+	"version": "1.2.3",
 	"main": "dist/index.js",
 	"repository": "https://github.com/pausegarra/psb-fetch.git",
 	"author": "Pau Segarra",
