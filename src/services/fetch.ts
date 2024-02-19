@@ -90,7 +90,13 @@ export class FetchService implements IFetchService {
   }
 
   async handleResponse(response: Response) {
+    const contentType = response.headers.get('Content-Type');
+
     if (response.ok) {
+      if (contentType && contentType.includes('blob')) {
+        return response.blob();
+      }
+
       return response.json();
     } else {
       const error = await response.json();
