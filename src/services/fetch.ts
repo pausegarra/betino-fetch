@@ -1,7 +1,7 @@
 import { httpErrorCodes } from '../utils/http-error-codes';
-import { IFetchService } from '../interfaces/IFetchService';
+import { FetchService } from '../interfaces/IFetchService';
 
-export class FetchService implements IFetchService {
+export class FetchServiceImpl implements FetchService {
   baseOptions: Record<string, string>;
 
   constructor(private readonly baseURL: string) {
@@ -92,16 +92,26 @@ export class FetchService implements IFetchService {
   async handleResponse(response: Response) {
     const contentType = response.headers.get('Content-Type');
 
-    if (response.ok) {
-      if (contentType && contentType.includes('blob')) {
-        return response.blob();
-      }
+    let responseBody;
 
-      return response.json();
-    } else {
-      const error = await response.json();
-      throw new FetchException(response.status, error);
+    if (!contentType) {
+      responseBody = await response.json();
+      return responseBody;
     }
+
+    if (contentType.includes('application/json')) {
+      responseBody = await response.json();
+    }
+
+    if (contentType.includes('text/plain')) {
+      responseBody = await response.text();
+    }
+
+    if (contentType.includes('application/octet-stream') || contentType.includes('application/pdf') || contentType.includes('blob')) {
+      responseBody = await response.blob();
+    }
+
+    return responseBody;
   }
 }
 

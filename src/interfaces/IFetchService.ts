@@ -1,4 +1,4 @@
-export interface IFetchService {
+export interface FetchService {
   get<T = any>(
     endpoint: string,
     params?: Record<string, string>,

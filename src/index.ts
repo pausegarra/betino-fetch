@@ -1,3 +1,3 @@
-export { FetchService } from './services/fetch';
-export { httpErrorCodes, httpErrorNames } from './utils/http-error-codes';
-export {IFetchService} from './interfaces/IFetchService';
+export { FetchServiceImpl } from './services/fetch';
+export { httpErrorCodes } from './utils/http-error-codes';
+export {FetchService} from './interfaces/IFetchService';
